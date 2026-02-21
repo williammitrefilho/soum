@@ -106,6 +106,18 @@ class SoumGraphic extends SoumElement{
 	set fill(fill){
 		this.set("fill", fill)
 	}
+	set x(x){
+		this.element.setAttribute("x", x)
+	}
+	set y(y){
+		this.element.setAttribute("y", y)
+	}
+	get x(){
+		return this.element.getAttribute("x")
+	}
+	get y(){
+		return this.element.getAttribute("y")
+	}
 }
 
 
@@ -150,18 +162,6 @@ class SoumText extends SoumGraphic{
 	}
 	get value(){
 		return this.element.innerText
-	}
-	set x(x){
-		this.element.setAttribute("x", x)
-	}
-	set y(y){
-		this.element.setAttribute("y", y)
-	}
-	get x(){
-		return this.element.getAttribute("x")
-	}
-	get y(){
-		return this.element.getAttribute("y")
 	}
 	set size(size){
 		this.set("font-size", size)
