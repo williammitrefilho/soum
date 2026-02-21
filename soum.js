@@ -106,12 +106,6 @@ class SoumGraphic extends SoumElement{
 	set fill(fill){
 		this.set("fill", fill)
 	}
-	set x(x){
-		this.set("x", x)
-	}
-	set y(y){
-		this.set("y", y)
-	}
 }
 
 
@@ -122,7 +116,6 @@ class SoumCircle extends SoumGraphic{
 		this.x = x
 		this.y = y
 		this.r = r
-		this.text = Soum.text("C", x, y)
 	}
 	set x(x){
 		this.set("cx", x)
@@ -133,8 +126,14 @@ class SoumCircle extends SoumGraphic{
 	set r(r){
 		this.set("r", r)
 	}
-	set value(value){
-		this.text.value = value
+	get x(){
+		return this.element.style.getPropertyValue("cx")
+	}
+	get y(){
+		return this.element.style.getPropertyValue("cy")
+	}
+	get r(){
+		return this.element.style.getPropertyValue("r")
 	}
 }
 
@@ -152,6 +151,15 @@ class SoumText extends SoumGraphic{
 	get value(){
 		return this.element.innerText
 	}
+	set x(x){
+		this.element.setAttribute("x", x)
+	}
+	set y(y){
+		this.element.setAttribute("y", y)
+	}
+	set size(size){
+		this.set("font-size", size)
+	}
 }
 
 Soum.el = (name, soumId = Soum.newId)=>{
@@ -163,7 +171,7 @@ Soum.svg = (w = "400", h = "400", soumId = Soum.newId()) => {
 Soum.circle = (x = 50, y = 50, r = 7, soumId = Soum.newId())=>{
 	return new SoumCircle(x, y, r, soumId)
 }
-Soum.text = (text, x = 50, y = 50, soumId = Soum.newId())=>{
+Soum.text = (text = "text", x = 50, y = 50, soumId = Soum.newId())=>{
 	return new SoumText(text, x, y, soumId)
 }
 Soum.a = (name, ...rest)=>{
