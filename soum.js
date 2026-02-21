@@ -106,6 +106,12 @@ class SoumGraphic extends SoumElement{
 	set fill(fill){
 		this.set("fill", fill)
 	}
+	set x(x){
+		this.set("x", x)
+	}
+	set y(y){
+		this.set("y", y)
+	}
 }
 
 
@@ -116,8 +122,8 @@ class SoumCircle extends SoumGraphic{
 		this.x = x
 		this.y = y
 		this.r = r
+		this.text = Soum.text("C", x, y)
 	}
-
 	set x(x){
 		this.set("cx", x)
 	}
@@ -126,6 +132,25 @@ class SoumCircle extends SoumGraphic{
 	}
 	set r(r){
 		this.set("r", r)
+	}
+	set value(value){
+		this.text.value = value
+	}
+}
+
+class SoumText extends SoumGraphic{
+
+	constructor(text, x = 50, y = 50, soumId = soumId.newId()){
+		super("text", soumId)
+		this.x = x
+		this.y = y
+		this.value = text
+	}
+	set value(text){
+		this.element.innerText = text
+	}
+	get value(){
+		return this.element.innerText
 	}
 }
 
@@ -137,6 +162,9 @@ Soum.svg = (w = "400", h = "400", soumId = Soum.newId()) => {
 }
 Soum.circle = (x = 50, y = 50, r = 7, soumId = Soum.newId())=>{
 	return new SoumCircle(x, y, r, soumId)
+}
+Soum.text = (text, x = 50, y = 50, soumId = Soum.newId())=>{
+	return new SoumText(text, x, y, soumId)
 }
 Soum.a = (name, ...rest)=>{
 	let soum = Soum[name](rest[0], rest[1], rest[2], rest[3])
