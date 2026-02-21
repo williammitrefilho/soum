@@ -47,6 +47,7 @@ class SoumElement{
 	appendTo(element){
 		element.appendChild(this.element)
 		this.element.outerHTML += ""
+		return this
 	}
 	get element(){
 		let element = document.getElementById(this._soumId)
@@ -63,7 +64,7 @@ class SoumElement{
 
 
 class SoumSVG extends SoumElement{
-	constructor(h = "400", w = "400", soumId = Soum.newId()){
+	constructor(w = "400", h = "400", soumId = Soum.newId()){
 		super("svg", soumId)
 		this.x = 0
 		this.y = 0
@@ -102,6 +103,9 @@ class SoumGraphic extends SoumElement{
 	set stroke(stroke){
 		this.set("stroke", stroke)
 	}
+	set fill(fill){
+		this.set("fill", fill)
+	}
 }
 
 
@@ -123,4 +127,19 @@ class SoumCircle extends SoumGraphic{
 	set r(r){
 		this.set("r", r)
 	}
+}
+
+Soum.el = (name, soumId = Soum.newId)=>{
+	return new SoumElement(name, soumId)
+}
+Soum.svg = (w = "400", h = "400", soumId = Soum.newId()) => {
+	return new SoumSVG(w, h, soumId)
+}
+Soum.circle = (x = 50, y = 50, r = 7, soumId = Soum.newId())=>{
+	return new SoumCircle(x, y, r, soumId)
+}
+Soum.a = (name, ...rest)=>{
+	let soum = Soum[name](rest[0], rest[1], rest[2], rest[3])
+	soum.in = soum.appendTo
+	return soum
 }
