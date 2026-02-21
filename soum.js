@@ -157,6 +157,12 @@ class SoumText extends SoumGraphic{
 	set y(y){
 		this.element.setAttribute("y", y)
 	}
+	get x(){
+		return this.element.getAttribute("x")
+	}
+	get y(){
+		return this.element.getAttribute("y")
+	}
 	set size(size){
 		this.set("font-size", size)
 	}
