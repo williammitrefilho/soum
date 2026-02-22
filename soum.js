@@ -48,6 +48,11 @@ class SoumElement{
 		this.redraw()
 		return this
 	}
+	replaceWith(element){
+		if(this.element.parentNode)
+			this.element.replaceWith(element)
+		this._element = element
+	}
 	get element(){
 		let element = document.getElementById(this._soumId)
 		if(element)
