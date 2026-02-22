@@ -180,8 +180,8 @@ Soum.a = (name, ...rest)=>{
 	if(Soum[name])
 		soum = Soum[name](rest[0], rest[1], rest[2], rest[3])
 	else
-		soum = Soum.el(name, rest[0], rest[1], rest[2], rest[3])
+		soum = Soum.gr(name, rest[0], rest[1], rest[2], rest[3])
 	soum.in = soum.appendTo
 	return soum
 }
-const Um = Soum.el
+const Um = Soum.gr
