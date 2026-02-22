@@ -38,15 +38,14 @@ class SoumElement{
 
 	redraw(){
 		if(this.element.parentNode)
-			this.outerHTML = this.outerHTML
+			this.element.outerHTML += ""
 	}
 	append(element){
 		this.element.appendChild(element)
-		element.outerHTML += ""
 	}
 	appendTo(element){
 		element.appendChild(this.element)
-		this.element.outerHTML += ""
+		this.redraw()
 		return this
 	}
 	get element(){
@@ -62,7 +61,6 @@ class SoumElement{
 	}
 }
 
-
 class SoumSVG extends SoumElement{
 	constructor(w = "400", h = "400", soumId = Soum.newId()){
 		super("svg", soumId)
@@ -70,30 +68,22 @@ class SoumSVG extends SoumElement{
 		this.y = 0
 		this.h = h
 		this.w = w
-	}
-	set x(x){
-		this._x = x
-		this.element.setAttribute("viewBox", this.viewBox)
-	}
-	set y(y){
-		this._y = y
-		this.element.setAttribute("viewBox", this.viewBox)
-	}
-	set w(w){
-		this._w = w
-		this.element.setAttribute("viewBox", this.viewBox)
-	}
-	set h(h){
-		this._h = h
-		this.element.setAttribute("viewBox", this.viewBox)
+		this.update()
 	}
 	get viewBox(){
-		return `${this._x} ${this._y} ${this._w} ${this._h}`
+		return `${this.x} ${this.y} ${this.w} ${this.h}`
+	}
+	update(){
+		this.element.setAttribute("viewBox", this.viewBox)
 	}
 }
 		
 class SoumGraphic extends SoumElement{
 
+	constructor(name, soumId = Soum.newId()){
+		super(name, soumId)
+		this.element.setAttribute("style", "")
+	}
 	set(name, value){
 		this.element.style.setProperty(name, value)
 	}
@@ -119,7 +109,6 @@ class SoumGraphic extends SoumElement{
 		return this.element.getAttribute("y")
 	}
 }
-
 
 class SoumCircle extends SoumGraphic{
 
@@ -167,9 +156,10 @@ class SoumText extends SoumGraphic{
 		this.set("font-size", size)
 	}
 }
-
-Soum.el = (name, soumId = Soum.newId)=>{
-	return new SoumElement(name, soumId)
+Soum.el = (name, soumId = Soum.newId())=>{
+	let soum = new SoumElement(name, soumId)
+	soum.no = soum.appendTo
+	return soum
 }
 Soum.svg = (w = "400", h = "400", soumId = Soum.newId()) => {
 	return new SoumSVG(w, h, soumId)
@@ -181,7 +171,12 @@ Soum.text = (text = "text", x = 50, y = 50, soumId = Soum.newId())=>{
 	return new SoumText(text, x, y, soumId)
 }
 Soum.a = (name, ...rest)=>{
-	let soum = Soum[name](rest[0], rest[1], rest[2], rest[3])
+	let soum
+	if(Soum[name])
+		soum = Soum[name](rest[0], rest[1], rest[2], rest[3])
+	else
+		soum = Soum.el(name, rest[0], rest[1], rest[2], rest[3])
 	soum.in = soum.appendTo
 	return soum
 }
+const Um = Soum.el
