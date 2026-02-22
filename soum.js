@@ -161,8 +161,8 @@ class SoumText extends SoumGraphic{
 		this.set("font-size", size)
 	}
 }
-Soum.el = (name, soumId = Soum.newId())=>{
-	let soum = new SoumElement(name, soumId)
+Soum.gr = (name, soumId = Soum.newId())=>{
+	let soum = new SoumGraphic(name, soumId)
 	soum.no = soum.appendTo
 	return soum
 }
