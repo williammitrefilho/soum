@@ -1,10 +1,21 @@
 class Soum{
+
+	static createElement(tagName){
+		return document.createElementNS("http://www.w3.org/2000/svg", tagName)
+	}
 	static documentChanged(element){
 		console.log(element, "has changed")
 	}
 	static removeAllFrom(element){
 		while(element.childNodes.length > 0)
 			element.removeChild(element.childNodes[0])
+	}
+	static copy(element){
+		let source = Soum.createElement(element.tagName)
+		source.innerHTML = element.innerHTML
+		source.setAttribute("class", element.getAttribute("class"))
+		source.setAttribute("style", element.getAttribute("style"))
+		return source
 	}
 	static newId(){
 		return `o${++Soum.counter}`
@@ -20,7 +31,7 @@ Soum.counter = 0
 class SoumElement{
 
 	constructor(name, soumId = Soum.newId()){
-		this._element = document.createElement(name)
+		this._element = Soum.createElement(name)
 		this._element.setAttribute("id", soumId)
 		this.soumId = soumId
 	}
@@ -30,14 +41,15 @@ class SoumElement{
 			this.element.outerHTML += ""
 	}
 	append(element){
-		this.element.appendChild(element)
+		this.element.append(element)
 	}
 	appendTo(element){
-		element.appendChild(this.element)
+		element.append(this.element)
 		this.redraw()
 		return this
 	}
 	replaceWith(element){
+		element.setAttribute("id", this.soumId)
 		if(this.element.parentNode)
 			this.element.replaceWith(element)
 		this._element = element
@@ -52,6 +64,9 @@ class SoumElement{
 	set soumId(soumId){
 		this._soumId = soumId
 		this.element.setAttribute("id", soumId)
+	}
+	get soumId(){
+		return this.element.getAttribute("id")
 	}
 }
 
