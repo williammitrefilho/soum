@@ -1,14 +1,3 @@
-const parser = new DOMParser()
-Object.defineProperty(HTMLSpanElement.prototype, "innerText", {
-	set:function(newValue){
-		this.innerHTML = newValue
-		this.hasChanged(newValue)
-	},
-})
-
-Element.prototype.hasChanged = function(){
-}
-
 class Soum{
 	static documentChanged(element){
 		console.log(element, "has changed")
@@ -152,10 +141,10 @@ class SoumText extends SoumGraphic{
 		this.value = text
 	}
 	set value(text){
-		this.element.innerText = text
+		this.element.innerHTML = text
 	}
 	get value(){
-		return this.element.innerText
+		return this.element.innerHTML
 	}
 	set size(size){
 		this.set("font-size", size)
